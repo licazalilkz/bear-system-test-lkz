@@ -7,7 +7,13 @@ export class CustomersEntity {
   public phone: string;
   public address: string;
 
-  constructor() {
+  constructor(props: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  }) {
     this.id = randomUUID();
+    Object.assign(this, props);
   }
 }

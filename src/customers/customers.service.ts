@@ -6,52 +6,46 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CustomersService {
-  private readonly database: Array<CustomersEntity> = [];
   constructor(private readonly prisma: PrismaService) {}
 
-  public findAll() {
-    return this.database;
+  public async findAll() {
+    return await this.prisma.customers.findMany();
   }
 
-  public findById(customerId: string) {
-    const foundCustomer = this.database.find(({ id }) => id === customerId);
-    if (!foundCustomer) {
-      throw new NotFoundException(
-        'Costumer not found! Please check id and try again',
-      );
-    }
-    return foundCustomer;
-  }
-
-  public create(payload: CreateCustomerDto) {
+  public async create(payload: CreateCustomerDto) {
     const customer = new CustomersEntity(payload);
-    this.database.push(customer);
+    const createCustomer = await this.prisma.customers.create({
+      data: customer,
+    });
 
-    return customer;
+    return createCustomer;
   }
 
-  public delete(customerId: string) {
-    const foundCustomerIndex = this.database.findIndex(
-      ({ id }) => id === customerId,
-    );
-    if (foundCustomerIndex === -1) {
-      throw new NotFoundException(
-        'Costumer not found! Please check id and try again',
-      );
-    }
-    this.database.splice(foundCustomerIndex, 1);
-  }
-
-  public partialUpdate(customerId: string, payload: UpdateCustomerDto) {
-    const foundCustomer = this.database.find(({ id }) => id === customerId);
+  public async findById(customerId: string) {
+    const foundCustomer = await this.prisma.customers.findUnique({
+      where: { id: customerId },
+    });
     if (!foundCustomer) {
       throw new NotFoundException(
         'Costumer not found! Please check id and try again',
       );
     }
-
-    Object.assign(foundCustomer, payload);
-
     return foundCustomer;
+  }
+
+  public async delete(customerId: string) {
+    await this.findById(customerId);
+    await this.prisma.customers.delete({ where: { id: customerId } });
+  }
+
+  public async partialUpdate(customerId: string, payload: UpdateCustomerDto) {
+    await this.findById(customerId);
+
+    const updateCustomer = await this.prisma.customers.update({
+      where: { id: customerId },
+      data: payload,
+    });
+
+    return updateCustomer;
   }
 }

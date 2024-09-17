@@ -17,31 +17,31 @@ export class CustomersController {
   constructor(private readonly customerService: CustomersService) {}
 
   @Get()
-  public findAll() {
-    return this.customerService.findAll();
+  public async findAll() {
+    return await this.customerService.findAll();
   }
 
   @Get(':customerId')
-  public findById(@Param('customerId') customerId: string) {
-    return this.customerService.findById(customerId);
+  public async findById(@Param('customerId') customerId: string) {
+    return await this.customerService.findById(customerId);
   }
 
   @Post()
-  public create(@Body() payload: CreateCustomerDto) {
-    return this.customerService.create(payload);
+  public async create(@Body() payload: CreateCustomerDto) {
+    return await this.customerService.create(payload);
   }
 
   @Delete(':customerId')
   @HttpCode(204)
-  public delete(@Param('customerId') customerId: string) {
-    this.customerService.delete(customerId);
+  public async delete(@Param('customerId') customerId: string) {
+    await this.customerService.delete(customerId);
   }
 
   @Patch(':customerId')
-  public partialUpdate(
+  public async partialUpdate(
     @Param('customerId') customerId: string,
     @Body() payload: UpdateCustomerDto,
   ) {
-    return this.customerService.partialUpdate(customerId, payload);
+    return await this.customerService.partialUpdate(customerId, payload);
   }
 }

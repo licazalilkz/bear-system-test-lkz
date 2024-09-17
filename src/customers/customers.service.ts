@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CustomersEntity } from './entities/customers.entity';
 import { CreateCustomerDto } from './dto/create-customer.dtp';
-import { updateCustomerDto } from './dto/update-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CustomersService {
   private readonly database: Array<CustomersEntity> = [];
+  constructor(private readonly prisma: PrismaService) {}
 
   public findAll() {
     return this.database;
@@ -40,7 +42,7 @@ export class CustomersService {
     this.database.splice(foundCustomerIndex, 1);
   }
 
-  public partialUpdate(customerId: string, payload: updateCustomerDto) {
+  public partialUpdate(customerId: string, payload: UpdateCustomerDto) {
     const foundCustomer = this.database.find(({ id }) => id === customerId);
     if (!foundCustomer) {
       throw new NotFoundException(

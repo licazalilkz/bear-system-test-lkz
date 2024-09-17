@@ -9,11 +9,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
+import { CreateCustomerDto } from './dto/create-customer.dtp';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customerService: CustomersService) {}
-  // define end poind e metodos associados ao decorator
+
   @Get()
   public findAll() {
     return this.customerService.findAll();
@@ -25,7 +27,7 @@ export class CustomersController {
   }
 
   @Post()
-  public create(@Body() payload) {
+  public create(@Body() payload: CreateCustomerDto) {
     return this.customerService.create(payload);
   }
 
@@ -38,7 +40,7 @@ export class CustomersController {
   @Patch(':customerId')
   public partialUpdate(
     @Param('customerId') customerId: string,
-    @Body() payload,
+    @Body() payload: UpdateCustomerDto,
   ) {
     return this.customerService.partialUpdate(customerId, payload);
   }

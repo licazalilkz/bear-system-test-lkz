@@ -22,3 +22,11 @@ model Customers{
 
   @@map("customers")
 }
+
+model Products{
+  id String @id @default(uuid())
+  name String @unique
+  price Float
+  quantProduct Int
+  description String
+}

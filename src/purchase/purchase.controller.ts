@@ -15,16 +15,6 @@ import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 
-  // @Post('test')
-  // public test(@Body() payload) {
-  //   return this.purchaseService.test(payload);
-  // }
-
-  // @Get('test')
-  // public async testLeitura() {
-  //   return await this.purchaseService.testLeitura();
-  // }
-
   @Post()
   public async create(@Body() payload: CreatePurchaseDto) {
     return await this.purchaseService.create(payload);

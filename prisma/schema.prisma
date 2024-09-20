@@ -20,6 +20,7 @@ model Customers{
   phone String
   address String
 
+  order Order[]
   @@map("customers")
 }
 
@@ -29,4 +30,31 @@ model Products{
   price Float
   quantProduct Int
   description String
+  orderProducts OrderProducts[]
+
+  @@map("products")
+}
+
+model Order{
+  id String @id @default(uuid())
+  customerId String
+  customer Customers @relation(fields: [customerId], references: [id])
+  date DateTime @default(now())
+  totalValue Float
+  items OrderProducts[]
+
+  @@map("order")
+}
+
+model OrderProducts{
+  id String @id @default(uuid())
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  productId String
+  product Products @relation(fields: [productId], references: [id])
+  quantity Int
+  priceAtPuchace Float
+
+
+  @@map("orderProducts")
 }

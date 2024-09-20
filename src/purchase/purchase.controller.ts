@@ -15,41 +15,41 @@ import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 
-  @Post('test')
-  public test(@Body() payload) {
-    return this.purchaseService.test(payload);
-  }
+  // @Post('test')
+  // public test(@Body() payload) {
+  //   return this.purchaseService.test(payload);
+  // }
 
-  @Get('test')
-  public async testLeitura() {
-    return await this.purchaseService.testLeitura();
-  }
+  // @Get('test')
+  // public async testLeitura() {
+  //   return await this.purchaseService.testLeitura();
+  // }
 
   @Post()
-  create(@Body() createPurchaseDto: CreatePurchaseDto) {
-    return this.purchaseService.create(createPurchaseDto);
+  public async create(@Body() payload: CreatePurchaseDto) {
+    return await this.purchaseService.create(payload);
   }
 
   @Get()
-  findAll() {
-    return this.purchaseService.findAll();
+  public async findAll() {
+    return await this.purchaseService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchaseService.findOne(+id);
+  @Get(':orderId')
+  public async findById(@Param('orderId') orderId: string) {
+    return await this.purchaseService.findById(orderId);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePurchaseDto: UpdatePurchaseDto,
+  @Patch(':orderId')
+  public async update(
+    @Param('orderId') orderId: string,
+    @Body() payload: UpdatePurchaseDto,
   ) {
-    return this.purchaseService.update(+id, updatePurchaseDto);
+    return await this.purchaseService.update(orderId, payload);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(':orderId')
+  public async remove(@Param('orderId') id: string) {
     return this.purchaseService.remove(+id);
   }
 }

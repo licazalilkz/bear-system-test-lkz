@@ -53,7 +53,7 @@ model OrderProducts{
   productId String
   product Products @relation(fields: [productId], references: [id])
   quantity Int
-  priceAtPuchace Float
+  priceAtPuchace Float  
 
 
   @@map("orderProducts")
